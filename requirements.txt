@@ -1,0 +1,8 @@
+langchain-openai
+langchain-core
+psycopg2-binary
+prometheus-client
+starlette-prometheus
+python-dotenv
+requests
+openai
