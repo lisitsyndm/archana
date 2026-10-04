@@ -48,6 +48,12 @@ Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
 docker attach archana_app
 ```
 
+Возврат к консоль
+
+```bash
+Ctrl + P Ctrl + Q
+```
+
 При завершении работы основного приложения его можно повторно запустить командой
 
 ```bash
@@ -70,11 +76,10 @@ docker start archana_app
 
 Вся проектная документация находится в каталоге `docs`.
 
-| Каталог          | Описание                        |
-|------------------|---------------------------------|
-| prd.md           | Описание поставновки задачи     |
-| arch.md          | Описание архитектуры проекта    |
-| tools.md         | Описание доступных скиллов      |
-| configuration.md | Инструкция по настройке системы |
-| observability.md | Описание observability проекта  |
-| guardrails.md    | Описание guardrails проекта     |
+| Каталог                                    | Описание                        |
+|--------------------------------------------|---------------------------------|
+| [prd.md](docs/prd.md)                      | Описание поставновки задачи     |
+| [arch.md](docs/arch.md)                    | Описание архитектуры проекта    |
+| [tools.md](docs/tools.md)                  | Описание доступных скиллов      |
+| [configuration.md](docs/configurations.md) | Инструкция по настройке системы |
+| [observability.md](docs/observability.md)  | Описание observability проекта  |
