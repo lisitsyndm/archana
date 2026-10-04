@@ -25,10 +25,20 @@ GF_ADMIN_PASSWORD=
 
 # Настройки LLM
 
+* LLM_MODEL - основная модель, которая используется для работы.
+* EMBEDDING_MODEL - модель для векторизации текста.
+
 ```env
 LLM_APIKEY=
 LLM_MODEL=
+EMBEDDING_MODEL=text-embedding-3-small
 LLM_URL=https://api.aitunnel.ru/v1/
+```
+
+# Настройки семантического поиска
+
+```env
+MAX_COSINE_DISTANCE=0.25
 ```
 
 # Настройки журналирования
