@@ -83,3 +83,4 @@ docker start archana_app
 | [tools.md](docs/tools.md)                  | Описание доступных скиллов      |
 | [configuration.md](docs/configurations.md) | Инструкция по настройке системы |
 | [observability.md](docs/observability.md)  | Описание observability проекта  |
+| [deployment.md](docs/deployment.md)     | Описание observability проекта  |
