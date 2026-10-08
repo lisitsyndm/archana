@@ -5,7 +5,7 @@ from core.command import Command
 from core.command_result import CommandResult
 from core.context_root import ContextRoot
 from pydantic import BaseModel, Field
-from core.embeddings import generate_embedding
+from core.embedder_client import EmbedderClient
 
 from data.pg_repository import PostgresKnowledgeRepository
 
@@ -41,7 +41,7 @@ class LoadFromDatabaseCommand(Command):
             return CommandResult("Запрос не содержит данных")
 
         # Генерируем эмбеддинг для поискового запроса
-        query_embedding = generate_embedding(query)
+        query_embedding = EmbedderClient.get_instance().generate_embedding(query)
 
         repo = _get_knowledge_repo()
         result = repo.search(query_embedding)
@@ -78,7 +78,7 @@ class SaveToDatabaseCommand(Command):
             return CommandResult("Информация для сохранения отсутствует.")
 
         # Генерируем эмбеддинг
-        embedding = generate_embedding(name)
+        embedding = EmbedderClient.get_instance().generate_embedding(name)
 
         repo = _get_knowledge_repo()
         repo.upsert(name, text, embedding)

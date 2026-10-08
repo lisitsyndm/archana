@@ -36,6 +36,51 @@
         <Execute>
           <option name="pattern" value="python test/test_data_exceptions.py" />
         </Execute>
+        <Execute>
+          <option name="pattern" value="del &quot;C:/Dima/Обучение/Итоговая работа/archana/core/embeddings.py&quot;" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python pytest *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python -c &quot;from core.llm_client import LLMClient; print('LLMClient OK')&quot;" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python -c &quot;from core.embedder_client import EmbedderClient; print('EmbedderClient OK')&quot;" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python -c &quot;from core.command_processor import CommandProcessor; print('CommandProcessor OK')&quot;" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python -c &quot;from tools.unclassified import UnclassifiedCommand; print('UnclassifiedCommand OK')&quot;" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python -c &quot;from tools.database import LoadFromDatabaseCommand; print('Database commands OK')&quot;" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="Remove-Item &quot;C:/Dima/Обучение/Итоговая работа/archana/core/embeddings.py&quot; -Force" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python -c &quot;import os; os.remove('C:/Dima/Обучение/Итоговая работа/archana/core/embeddings.py'); print('Deleted')&quot;" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python -c &quot;import os; os.remove('core/embeddings.py'); print('Deleted')&quot;" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="Test-Path &quot;core/embeddings.py&quot;" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python -c &quot;import os; os.remove(r'core/embeddings.py'); print('Deleted')&quot;" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="git rm *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python -c &quot;from core.llm_client import LLMClient; from core.embedder_client import EmbedderClient; from core.command_processor import CommandProcessor; from tools.unclassified import UnclassifiedCommand; from tools.database import LoadFromDatabaseCommand; print('All imports OK')&quot;" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="pip install *" />
+        </Execute>
       </list>
     </option>
   </component>

@@ -25,14 +25,18 @@ GF_ADMIN_PASSWORD=
 
 # Настройки LLM
 
-* LLM_MODEL - основная модель, которая используется для работы.
-* EMBEDDING_MODEL - модель для векторизации текста.
-
 ```env
 LLM_APIKEY=
-LLM_MODEL=
-EMBEDDING_MODEL=text-embedding-3-small
+LLM_MODEL=gpt-4.1-nano
 LLM_URL=https://api.aitunnel.ru/v1/
+```
+
+# Настройки Эмбеддера
+
+```env
+EMBEDDING_APIKEY=
+EMBEDDING_MODEL=text-embedding-3-small
+EMBEDDING_URL=https://api.aitunnel.ru/v1/
 ```
 
 # Настройки семантического поиска

@@ -106,3 +106,87 @@ INFO: Парсим JSON:
 ERROR: Ошибка парсинга JSON: Expecting value: line 1 column 1 (char 0)
 INFO: Вызов команды: Выход
 INFO: Параметры: {'text': ''}
+INFO: ====================================================================
+INFO: Обработка сообщения: 'выход'
+INFO: Сообщение классифицировано как произвольный текст.
+INFO: _convert_text_to_command:
+INFO: Ищем команду с помощью LLM.
+INFO: По тексту: выход
+INFO: HTTP Request: POST https://api.aitunnel.ru/v1/chat/completions "HTTP/1.1 200 OK"
+INFO: Команда классифицирована как: Выход
+INFO: Команда найдена: Выход
+INFO: Возврат
+INFO: Вызов команды: Выход
+INFO: Параметры: {}
+INFO: ====================================================================
+INFO: Обработка сообщения: '/Сохрани в БД : {"name":"Тест", "text":"Содержание ключа Тест"}'
+INFO: Сообщение классифицировано как скилл.
+INFO: _convert_skill_to_command:
+INFO: Команда найдена: Сохрани в БД
+INFO: _fill_variables:
+INFO: Подставляем переменные в текст команды:  {"name":"Тест", "text":"Содержание ключа Тест"}
+INFO: _parse_data
+INFO: Парсим JSON: {"name":"Тест", "text":"Содержание ключа Тест"}
+INFO: Вызов команды: Сохрани в БД
+INFO: Параметры: {'name': 'Тест', 'text': 'Содержание ключа Тест'}
+INFO: HTTP Request: POST https://api.aitunnel.ru/v1/embeddings "HTTP/1.1 200 OK"
+INFO: ====================================================================
+INFO: Обработка сообщения: '/Найди в БД : {"query":"Тест"}'
+INFO: Сообщение классифицировано как скилл.
+INFO: _convert_skill_to_command:
+INFO: Команда найдена: Найди в БД
+INFO: _fill_variables:
+INFO: Подставляем переменные в текст команды:  {"query":"Тест"}
+INFO: _parse_data
+INFO: Парсим JSON: {"query":"Тест"}
+INFO: Вызов команды: Найди в БД
+INFO: Параметры: {'query': 'Тест'}
+INFO: HTTP Request: POST https://api.aitunnel.ru/v1/embeddings "HTTP/1.1 200 OK"
+INFO: ====================================================================
+INFO: Обработка сообщения: '/выход'
+INFO: Сообщение классифицировано как скилл.
+INFO: _convert_skill_to_command:
+INFO: Команда найдена: Выход
+INFO: _fill_variables:
+INFO: Подставляем переменные в текст команды: 
+INFO: _parse_data
+INFO: Парсим JSON: 
+ERROR: Ошибка парсинга JSON: Expecting value: line 1 column 1 (char 0)
+INFO: Вызов команды: Выход
+INFO: Параметры: {'text': ''}
+INFO: ====================================================================
+INFO: Обработка сообщения: '/Сохрани в БД : {"name":"Тестовая команда", "text":"Содержание ключа Тест"}'
+INFO: Сообщение классифицировано как скилл.
+INFO: _convert_skill_to_command:
+INFO: Команда найдена: Сохрани в БД
+INFO: _fill_variables:
+INFO: Подставляем переменные в текст команды:  {"name":"Тестовая команда", "text":"Содержание ключа Тест"}
+INFO: _parse_data
+INFO: Парсим JSON: {"name":"Тестовая команда", "text":"Содержание ключа Тест"}
+INFO: Вызов команды: Сохрани в БД
+INFO: Параметры: {'name': 'Тестовая команда', 'text': 'Содержание ключа Тест'}
+INFO: HTTP Request: POST https://api.aitunnel.ru/v1/embeddings "HTTP/1.1 200 OK"
+INFO: ====================================================================
+INFO: Обработка сообщения: '/Найди в БД : {"query":"Тестовые команды"}'
+INFO: Сообщение классифицировано как скилл.
+INFO: _convert_skill_to_command:
+INFO: Команда найдена: Найди в БД
+INFO: _fill_variables:
+INFO: Подставляем переменные в текст команды:  {"query":"Тестовые команды"}
+INFO: _parse_data
+INFO: Парсим JSON: {"query":"Тестовые команды"}
+INFO: Вызов команды: Найди в БД
+INFO: Параметры: {'query': 'Тестовые команды'}
+INFO: HTTP Request: POST https://api.aitunnel.ru/v1/embeddings "HTTP/1.1 200 OK"
+INFO: ====================================================================
+INFO: Обработка сообщения: '/ выход'
+INFO: Сообщение классифицировано как скилл.
+INFO: _convert_skill_to_command:
+INFO: Команда найдена: Выход
+INFO: _fill_variables:
+INFO: Подставляем переменные в текст команды: 
+INFO: _parse_data
+INFO: Парсим JSON: 
+ERROR: Ошибка парсинга JSON: Expecting value: line 1 column 1 (char 0)
+INFO: Вызов команды: Выход
+INFO: Параметры: {'text': ''}

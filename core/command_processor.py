@@ -1,18 +1,14 @@
 import os
 import logging
 import time
+import json
 from typing import Callable
 
 from dotenv import load_dotenv
 
 from core.command import Command
-
+from core.llm_client import LLMClient
 from core.command_result import CommandResult
-#from context.context_root import ContextRoot
-import json
-from langchain_openai import ChatOpenAI
-from langchain_core.output_parsers import JsonOutputParser
-from langchain_core.prompts import PromptTemplate
 from core.helpers import fillKnowledge
 from core.plan import PlanStatus
 from core.command_data import *
@@ -24,27 +20,9 @@ load_dotenv()
 
 logger = logging.getLogger(__name__)
 
-#-----------------------------------------------------------------------------#
-
-APIKEY = os.getenv("LLM_APIKEY", "")
-MODEL = os.getenv("LLM_MODEL", "gpt-4.1-nano")
-URL = os.getenv("LLM_URL", "https://api.aitunnel.ru/v1/")
-
-#-----------------------------------------------------------------------------#
 
 class CommandProcessor:
     ctx_root = None
-
-    llm = ChatOpenAI(
-                model= MODEL,
-                api_key = APIKEY,
-                base_url = URL,
-                temperature = 0,
-                request_timeout = 60,
-                max_retries = 3,
-            )
-
-    #-----------------------------------------------------------------------------#
 
     def __init__(self, ctx_root):
         self.ctx_root = ctx_root
@@ -124,11 +102,8 @@ class CommandProcessor:
 
     def _find_command(self, name: str) -> Command:
         command_name = " ".join(name.lower().split())
-        #print(f"Ищем команду: {command_name}")
         command: Command = None
-        #print("Ищем варианты:")
         for cmd in self.ctx_root.Commands:
-            #print(cmd.TechName)
             if cmd.TechName == command_name:
                 command = cmd
                 logger.info(f"Команда найдена: {command.Name}")
@@ -138,31 +113,14 @@ class CommandProcessor:
     #-----------------------------------------------------------------------------#
 
     def _classify(self, text: str) -> str:
-        start_time = time.time()
-
         cmds = ", ".join(cmd.Name for cmd in self.ctx_root.Commands)
         prompt = f"""Определи к какой команде из списка: {cmds} относится следующий текст: {text}.
             Ответ должен быть только названием команды.
             Верни только название команды из списка.
             Ответ долженв точности совпадать с названием команды из списка.
             Если команду найти нельзя, верни 'Нет'."""
-        response = self.llm.invoke(prompt)
 
-        duration = time.time() - start_time
-        llm_classification_duration_seconds.observe(duration)
-
-        # Получаем информацию о токенах
-        try:
-            usage = response.response_metadata.get('token_usage', {})
-            prompt_tokens = usage.get('prompt_tokens', 0)
-            completion_tokens = usage.get('completion_tokens', 0)
-
-            llm_tokens_total.labels(type="prompt").inc(prompt_tokens)
-            llm_tokens_total.labels(type="completion").inc(completion_tokens)
-        except (AttributeError, KeyError):
-            logger.warning("Не удалось получить информацию о токенах")
-
-        return response.content.strip()
+        return LLMClient.get_instance().invoke(prompt, metric_name="llm_classification")
 
     #-----------------------------------------------------------------------------#
 
@@ -266,7 +224,6 @@ class CommandProcessor:
         payload = ""
         data = {}
 
-        #logger.debug(f"Команда начинается с символа '/'. Ищем команду по названию.")
         parts = text.split(":", 1)
         command_name = parts[0].strip()
         command_name = command_name.replace("/", "")
@@ -274,7 +231,6 @@ class CommandProcessor:
         payload = parts[1] if len(parts) > 1 else ""
 
         command = self._find_command(command_name)
-        #payload = payload.replace('"', '\\"')
         data = self._parse_data(self._fill_variables(payload))
 
         return command, payload, data
@@ -313,8 +269,6 @@ class CommandProcessor:
         logger.info(f"_parse_command_data_using_llm")
         logger.info(f"Определяем параметры команды {cmd.Name} с помощью LLM.")
 
-        start_time = time.time()
-
         parser = JsonOutputParser(pydantic_object = cmd.data_class)
         prompt = PromptTemplate (
             input_variables=["fields", "user_input", "format_instructions"],
@@ -333,39 +287,10 @@ class CommandProcessor:
                 fields += f", "
             fields += f"{field_info.description} ({name})"
 
-        classification_chain = prompt | self.llm | parser
-
-        formatted_prompt = prompt.format(
+        return LLMClient.get_instance().invoke_with_parser(
+            prompt_template=prompt,
+            parser=parser,
             fields=fields,
             user_input=user_input,
-            format_instructions=parser.get_format_instructions()
-            )
-        logger.info(f"Промпт для LLM:\n{formatted_prompt}")
-
-        payload = classification_chain.invoke(
-            {"fields": fields,
-            "user_input": user_input,
-            "format_instructions": parser.get_format_instructions()
-            })
-
-        duration = time.time() - start_time
-        llm_data_prep_duration_seconds.observe(duration)
-
-        # Получаем информацию о токенах из response
-        try:
-            usage = payload.response_metadata.get('token_usage', {})
-            prompt_tokens = usage.get('prompt_tokens', 0)
-            completion_tokens = usage.get('completion_tokens', 0)
-
-            llm_tokens_total.labels(type="prompt").inc(prompt_tokens)
-            llm_tokens_total.labels(type="completion").inc(completion_tokens)
-        except (AttributeError, KeyError):
-            logger.warning("Не удалось получить информацию о токенах")
-
-        logger.info(f"Payload: {payload}")
-        logger.info(f"Длительность подготовки данных: {duration:.3f} сек")
-
-        result = str(payload)
-        result = result.replace("'", '"')
-
-        return result
+            metric_name="llm_data_prep",
+        )
