@@ -190,3 +190,15 @@ INFO: Парсим JSON:
 ERROR: Ошибка парсинга JSON: Expecting value: line 1 column 1 (char 0)
 INFO: Вызов команды: Выход
 INFO: Параметры: {'text': ''}
+INFO: ====================================================================
+INFO: Обработка сообщения: 'выход'
+INFO: Сообщение классифицировано как произвольный текст.
+INFO: _convert_text_to_command:
+INFO: Ищем команду с помощью LLM.
+INFO: По тексту: выход
+INFO: HTTP Request: POST https://api.aitunnel.ru/v1/chat/completions "HTTP/1.1 200 OK"
+INFO: Команда классифицирована как: Выход
+INFO: Команда найдена: Выход
+INFO: Возврат
+INFO: Вызов команды: Выход
+INFO: Параметры: {}

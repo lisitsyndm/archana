@@ -5,7 +5,7 @@ from core.command import Command
 from core.command_result import CommandResult
 from core.context import Context
 from core.context_root import ContextRoot
-from core.llm_client import LLMClient
+from llm.llm_client import LLMClient
 from pydantic import BaseModel, Field
 from core.knowledge import Knowledge, TextKnowledge
 import time

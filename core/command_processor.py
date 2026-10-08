@@ -7,7 +7,7 @@ from typing import Callable
 from dotenv import load_dotenv
 
 from core.command import Command
-from core.llm_client import LLMClient
+from llm.llm_client import LLMClient
 from core.command_result import CommandResult
 from core.helpers import fillKnowledge
 from core.plan import PlanStatus

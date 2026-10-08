@@ -5,7 +5,7 @@ from core.command import Command
 from core.command_result import CommandResult
 from core.context_root import ContextRoot
 from pydantic import BaseModel, Field
-from core.embedder_client import EmbedderClient
+from llm.embedder_client import EmbedderClient
 
 from data.pg_repository import PostgresKnowledgeRepository
 

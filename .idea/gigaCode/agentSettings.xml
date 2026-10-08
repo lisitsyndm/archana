@@ -81,6 +81,15 @@
         <Execute>
           <option name="pattern" value="pip install *" />
         </Execute>
+        <Execute>
+          <option name="pattern" value="mkdir &quot;C:/Dima/Обучение/Итоговая работа/archana/core/llm&quot;" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="move &quot;C:/Dima/Обучение/Итоговая работа/archana/core/llm_client.py&quot; &quot;C:/Dima/Обучение/Итоговая работа/archana/core/llm/llm_client.py&quot;" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="move &quot;C:/Dima/Обучение/Итоговая работа/archana/core/embedder_client.py&quot; &quot;C:/Dima/Обучение/Итоговая работа/archana/core/llm/embedder_client.py&quot;" />
+        </Execute>
       </list>
     </option>
   </component>
