@@ -69,10 +69,10 @@ class LoadPlanFromDBTool(Command):
 
 class SavePlanToDBTool(Command):
     def __init__(self):
-        super().__init__("Загрузи план из базы данных", PlanToolParameters)
+        super().__init__("Сохрани план в базу данных", PlanToolParameters)
 
     def exec(self, ctx: ContextRoot, data: dict) -> CommandResult:
-        ctx.plan.loadFromDatabase(data.get("name", ""))
+        ctx.plan.saveToDatabase(data.get("name", ""))
         return CommandResult("План сохранен", False)
 
 #-----------------------------------------------------------------------------------------------------#

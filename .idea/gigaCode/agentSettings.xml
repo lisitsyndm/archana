@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GigaCodeAgentSettings">
+    <option name="autoApprovedCommands">
+      <list>
+        <Execute>
+          <option name="pattern" value="cd *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python test/test_data_exceptions.py 2&gt;&amp;1" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python test/test_data_connection.py 2&gt;&amp;1" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python test/test_data_repository.py 2&gt;&amp;1" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python -c &quot;from data.connection import get_connection_params, get_pool; print('connection OK')&quot; 2&gt;&amp;1" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python -c &quot;from data.repository import KnowledgeRepository, PlanRepository; print('repository OK')&quot; 2&gt;&amp;1" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python -c &quot;from data.pg_repository import PostgresKnowledgeRepository, PostgresPlanRepository; print('pg_repository OK')&quot; 2&gt;&amp;1" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python -c &quot;from tools.database import RegisterDatabaseCommands, LoadFromDatabaseCommand, SaveToDatabaseCommand; print('tools/database OK')&quot; 2&gt;&amp;1" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python -c &quot;from core.plan import Plan, PlanStatus; print('core/plan OK')&quot; 2&gt;&amp;1" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python -c &quot;from tools.plan import SavePlanToDBTool; print('tools/plan OK')&quot; 2&gt;&amp;1" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python test/test_data_exceptions.py" />
+        </Execute>
+      </list>
+    </option>
+  </component>
+</project>

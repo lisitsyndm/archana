@@ -1,11 +1,10 @@
-import os
-from dotenv import load_dotenv
-import psycopg2
+import logging
 from enum import Enum
 from typing import List, Optional
 from core.command_data import CommandData
+from data.pg_repository import PostgresPlanRepository
 
-load_dotenv()
+logger = logging.getLogger(__name__)
 
 
 class PlanStatus(Enum):
@@ -63,99 +62,31 @@ class Plan:
 
     def loadFromDatabase(self, name_or_id: str) -> bool:
         """Загружает план из БД по названию или ID. Возвращает True при успехе."""
-        host = os.getenv("DB_HOST", "localhost")
-        port = os.getenv("DB_PORT", "5432")
-        database = os.getenv("DB_NAME", "knowledge")
-        username = os.getenv("DB_USERNAME", "postgres")
-        password = os.getenv("DB_PASSWORD", "postgres")
+        repo = PostgresPlanRepository()
+        result = repo.get_by_id_or_name(name_or_id)
 
-        conn = psycopg2.connect(
-            host=host,
-            port=port,
-            database=database,
-            user=username,
-            password=password
-        )
-        cursor = conn.cursor()
-
-        # Ищем план по ID или Name
-        cursor.execute("""
-            SELECT id, name FROM "Plan" WHERE id = %s OR name = %s
-        """, (name_or_id, name_or_id))
-
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            conn.close()
+        if result is None:
             return False
 
-        plan_id = row[0]
-
-        # Загружаем элементы плана
-        cursor.execute("""
-            SELECT commandName, commandPayload FROM "PlanItem" WHERE plan_id = %s ORDER BY number
-        """, (plan_id,))
-
-        rows = cursor.fetchall()
+        items = result["items"]
         self.commands.clear()
-        for cmd_row in rows:
+        for cmd_name, cmd_payload in items:
             self.commands.append(
-                CommandData.createFromStructuredData(cmd_row[0], cmd_row[1])
+                CommandData.createFromStructuredData(cmd_name, cmd_payload)
             )
-
-        cursor.close()
-        conn.close()
 
         self.reset()
         return True
 
     def saveToDatabase(self, name: str) -> bool:
         """Сохраняет план и все элементы в БД в виде транзакции. Возвращает True при успехе."""
-        host = os.getenv("DB_HOST", "localhost")
-        port = os.getenv("DB_PORT", "5432")
-        database = os.getenv("DB_NAME", "knowledge")
-        username = os.getenv("DB_USERNAME", "postgres")
-        password = os.getenv("DB_PASSWORD", "postgres")
-
-        conn = psycopg2.connect(
-            host=host,
-            port=port,
-            database=database,
-            user=username,
-            password=password
-        )
-        cursor = conn.cursor()
-
         try:
-            # Вставляем или обновляем план
-            cursor.execute("""
-                INSERT INTO "Plan" (name) VALUES (%s)
-                ON CONFLICT (name) DO UPDATE SET name = EXCLUDED.name
-                RETURNING id
-            """, (name,))
-            plan_id = cursor.fetchone()[0]
-
-            # Удаляем старые элементы
-            cursor.execute("""DELETE FROM "PlanItem" WHERE plan_id = %s""", (plan_id,))
-
-            # Вставляем новые элементы
-            for idx, cmd in enumerate(self.commands, start=1):
-                cursor.execute("""
-                    INSERT INTO "PlanItem" (number, plan_id, commandName, commandPayload)
-                    VALUES (%s, %s, %s, %s)
-                """, (idx, plan_id, cmd.commandName, cmd.commandPayload))
-
-            conn.commit()
+            repo = PostgresPlanRepository()
+            repo.save(name, self.commands)
             return True
         except Exception as e:
-            conn.rollback()
-            print(f"Ошибка при сохранении плана: {e}")
+            logger.error(f"Ошибка при сохранении плана: {e}")
             return False
-        finally:
-            cursor.close()
-            conn.close()
-
-
 
 
 def fillTestPlan(plan: Plan):
