@@ -4,6 +4,7 @@ from core.command_data import CommandData
 from core.context import Context
 from core.context_root import ContextRoot
 from core.command_processor import CommandProcessor
+from core.user_roles import UserRoles
 from pydantic import BaseModel, Field
 from core.knowledge import Knowledge, TextKnowledge
 from core.helpers import fillKnowledge
@@ -70,7 +71,7 @@ class LoadPlanFromDBTool(Command):
 
 class SavePlanToDBTool(Command):
     def __init__(self):
-        super().__init__("Сохрани план в базу данных", PlanToolParameters)
+        super().__init__("Сохрани план в базу данных", PlanToolParameters, required_role=UserRoles.user)
 
     def exec(self, ctx: ContextRoot, data: dict) -> CommandResult:
         ctx.plan.saveToDatabase(data.get("name", ""))

@@ -15,6 +15,7 @@ from core.plan import PlanStatus
 from core.command_data import *
 from core.exceptions import *
 from core.logger import *
+from core.user_roles import UserRoles
 from observability.metrics import *
 
 load_dotenv()
@@ -80,7 +81,7 @@ class CommandProcessor:
             logger.info(f"Вызов команды: {command.Name}")
             logger.info(f"Параметры: {data}")
 
-            result = command.exec(self.ctx_root, data)
+            result = self._executeCommand(command, self.ctx_root, data)
             self.ctx_root.histories.append(CommandData.createFromStructuredData(command.Name, payload))
             if (result.update_result):
                 self.ctx_root.Context.lastResult = result.output_text
@@ -99,6 +100,13 @@ class CommandProcessor:
 
             return CommandResult(f"Ошибка при выполнении команды: {e}")
 
+
+    def _executeCommand(self, command: Command, context_root, data: dict) -> CommandResult:
+        """Проверяет права доступа и выполняет команду."""
+        if context_root.User is not None and context_root.User.Roles != UserRoles.admin:
+            if command.required_role != UserRoles.user:
+                return CommandResult(f"Доступ к команде '{command.Name}' запрещён для вашей роли.")
+        return command.exec(context_root, data)
 
     #-----------------------------------------------------------------------------#
 

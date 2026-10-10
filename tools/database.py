@@ -5,6 +5,7 @@ from core.command import Command
 from core.command_result import CommandResult
 from core.context_root import ContextRoot
 from core.command_processor import CommandProcessor
+from core.user_roles import UserRoles
 from pydantic import BaseModel, Field
 from llm.embedder_client import EmbedderClient
 
@@ -33,7 +34,7 @@ class LoadFromDatabaseCommandParameters(BaseModel):
 
 class LoadFromDatabaseCommand(Command):
     def __init__(self):
-        super().__init__("Найди в БД", LoadFromDatabaseCommandParameters)
+        super().__init__("Найди в БД", LoadFromDatabaseCommandParameters, required_role=UserRoles.user)
 
     def exec(self, ctx: ContextRoot, data: dict) -> CommandResult:
         query = data.get("query", "")
@@ -66,7 +67,7 @@ class SaveToDatabaseCommandParameters(BaseModel):
 
 class SaveToDatabaseCommand(Command):
     def __init__(self):
-        super().__init__("Сохрани в БД", SaveToDatabaseCommandParameters)
+        super().__init__("Сохрани в БД", SaveToDatabaseCommandParameters, required_role=UserRoles.admin)
 
     def exec(self, ctx: ContextRoot, data: dict) -> CommandResult:
         name = data.get("name", "")
