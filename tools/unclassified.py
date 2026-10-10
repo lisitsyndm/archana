@@ -5,6 +5,7 @@ from core.command import Command
 from core.command_result import CommandResult
 from core.context import Context
 from core.context_root import ContextRoot
+from core.command_processor import CommandProcessor
 from llm.llm_client import LLMClient
 from pydantic import BaseModel, Field
 from core.knowledge import Knowledge, TextKnowledge
@@ -46,5 +47,5 @@ class UnclassifiedCommand(Command):
 
 #-----------------------------------------------------------------------------------------------------#
 
-def RegisterUnclassifiedCommands(ctx: ContextRoot):
-    ctx.Commands.append(UnclassifiedCommand())
+def RegisterUnclassifiedCommands(cp: CommandProcessor):
+    cp.Commands.append(UnclassifiedCommand())

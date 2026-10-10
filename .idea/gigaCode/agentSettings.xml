@@ -90,6 +90,15 @@
         <Execute>
           <option name="pattern" value="move &quot;C:/Dima/Обучение/Итоговая работа/archana/core/embedder_client.py&quot; &quot;C:/Dima/Обучение/Итоговая работа/archana/core/llm/embedder_client.py&quot;" />
         </Execute>
+        <Execute>
+          <option name="pattern" value="python -c &quot;import sys; sys.path.insert(0, '.'); from core.command_processor import CommandProcessor, CommandProcessorSM; print('Import OK')&quot;" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python -m py_compile core/context_root.py core/command_processor.py tools/init_tools.py tools/context.py tools/controls.py tools/database.py tools/file_system.py tools/plan.py tools/researcher.py tools/search.py tools/unclassified.py main.py" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python -c &quot;from core.context_root import ContextRoot; from core.command_processor import CommandProcessor; cr = ContextRoot(); cp = CommandProcessor(cr); print('ContextRoot has Commands:', hasattr(cr, 'Commands')); print('CommandProcessor has Commands:', hasattr(cp, 'Commands')); print('CommandProcessor.Commands type:', type(cp.Commands))&quot;" />
+        </Execute>
       </list>
     </option>
   </component>

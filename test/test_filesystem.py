@@ -17,7 +17,7 @@ class TestFileSystemIntegration(unittest.TestCase):
     should_continue = False
 
     def setUp(self):
-        initTools(self.ctx_root)
+        initTools(self.cmd_processor)
         self.answers = []
 
     def callback(self, result: CommandResult):

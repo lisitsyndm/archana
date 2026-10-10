@@ -3,6 +3,7 @@ from core.command_result import CommandResult
 from core.command_data import CommandData
 from core.context import Context
 from core.context_root import ContextRoot
+from core.command_processor import CommandProcessor
 from pydantic import BaseModel, Field
 from core.knowledge import Knowledge, TextKnowledge
 from core.helpers import fillKnowledge
@@ -120,15 +121,15 @@ class ShowPlanTool(Command):
         return CommandResult(res, False)
 #-----------------------------------------------------------------------------------------------------#
 
-def RegisterPlanCommands(ctx: ContextRoot):
-    ctx.Commands.append(ExecutePlanTool())
-    ctx.Commands.append(ResetPlanTool())
+def RegisterPlanCommands(cp: CommandProcessor):
+    cp.Commands.append(ExecutePlanTool())
+    cp.Commands.append(ResetPlanTool())
 
-    ctx.Commands.append(ContinuePlanTool())
-    ctx.Commands.append(PausePlanTool())
-    ctx.Commands.append(LoadPlanFromDBTool())
-    ctx.Commands.append(SavePlanToDBTool())
-    ctx.Commands.append(SaveLastHistoryItemToPlanTool())
-    ctx.Commands.append(ShowPlanTool())
+    cp.Commands.append(ContinuePlanTool())
+    cp.Commands.append(PausePlanTool())
+    cp.Commands.append(LoadPlanFromDBTool())
+    cp.Commands.append(SavePlanToDBTool())
+    cp.Commands.append(SaveLastHistoryItemToPlanTool())
+    cp.Commands.append(ShowPlanTool())
 
 

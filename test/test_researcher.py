@@ -18,7 +18,7 @@ class TestResearcherIntegration(unittest.TestCase):
 
     def setUp(self):
         self.answers = []
-        initTools(self.ctx_root)
+        initTools(self.cmd_processor)
 
     def callback(self, result: CommandResult):
         self.answers.append(result)

@@ -6,6 +6,7 @@ from typing import Callable
 
 from dotenv import load_dotenv
 
+from typing import List
 from core.command import Command
 from llm.llm_client import LLMClient
 from core.command_result import CommandResult
@@ -26,6 +27,7 @@ class CommandProcessor:
 
     def __init__(self, ctx_root):
         self.ctx_root = ctx_root
+        self.Commands: List[Command] = []
 
     #-----------------------------------------------------------------------------#
 
@@ -103,7 +105,7 @@ class CommandProcessor:
     def _find_command(self, name: str) -> Command:
         command_name = " ".join(name.lower().split())
         command: Command = None
-        for cmd in self.ctx_root.Commands:
+        for cmd in self.Commands:
             if cmd.TechName == command_name:
                 command = cmd
                 logger.info(f"Команда найдена: {command.Name}")
@@ -113,7 +115,7 @@ class CommandProcessor:
     #-----------------------------------------------------------------------------#
 
     def _classify(self, text: str) -> str:
-        cmds = ", ".join(cmd.Name for cmd in self.ctx_root.Commands)
+        cmds = ", ".join(cmd.Name for cmd in self.Commands)
         prompt = f"""Определи к какой команде из списка: {cmds} относится следующий текст: {text}.
             Ответ должен быть только названием команды.
             Верни только название команды из списка.

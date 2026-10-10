@@ -19,7 +19,7 @@ class TestDatabaseIntegration(unittest.TestCase):
     def setUp(self):
         #self.ctx_root = ContextRoot()
         #self.cmd_processor = CommandProcessor(self.ctx_root)
-        initTools(self.ctx_root)
+        initTools(self.cmd_processor)
         #self.answers[CommandResult] = []
         #self.should_continue = False
 

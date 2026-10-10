@@ -11,9 +11,10 @@ if __name__ == '__main__':
     
     service = MessageService()
     ctx_root = ContextRoot()
-    service.CommandProcessor = CommandProcessor(ctx_root)
+    cmd_processor = CommandProcessor(ctx_root)
+    service.CommandProcessor = cmd_processor
 
-    initTools(ctx_root)
+    initTools(cmd_processor)
 
     #service.Prepare()
     service.Run()

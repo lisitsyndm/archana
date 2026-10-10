@@ -2,6 +2,7 @@ from core.command import Command
 from core.command_result import CommandResult
 from core.context import Context
 from core.context_root import ContextRoot
+from core.command_processor import CommandProcessor
 from pydantic import BaseModel, Field
 from core.knowledge import Knowledge, TextKnowledge
 from core.helpers import fillKnowledge
@@ -203,13 +204,13 @@ class AddLastResultToVariableCommand(Command):
 
 #-----------------------------------------------------------------------------------------------------#
 
-def RegisterContextCommands(ctx: ContextRoot):
-    ctx.Commands.append(ContextShowCommand())
-    ctx.Commands.append(ContextNewCommand())
-    ctx.Commands.append(LastResultCommand())
-    ctx.Commands.append(ShowVariableCommand())
-    ctx.Commands.append(SaveVariableCommand())
-    ctx.Commands.append(VariablesListCommand())
-    ctx.Commands.append(SaveTextAsVariableCommand())
-    ctx.Commands.append(AddLastResultToVariableCommand())
-    ctx.Commands.append(AddVariablesToLastResult())
+def RegisterContextCommands(cp: CommandProcessor):
+    cp.Commands.append(ContextShowCommand())
+    cp.Commands.append(ContextNewCommand())
+    cp.Commands.append(LastResultCommand())
+    cp.Commands.append(ShowVariableCommand())
+    cp.Commands.append(SaveVariableCommand())
+    cp.Commands.append(VariablesListCommand())
+    cp.Commands.append(SaveTextAsVariableCommand())
+    cp.Commands.append(AddLastResultToVariableCommand())
+    cp.Commands.append(AddVariablesToLastResult())

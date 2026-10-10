@@ -2,6 +2,7 @@ from core.command import Command
 from core.command_result import CommandResult
 from core.context import Context
 from core.context_root import ContextRoot
+from core.command_processor import CommandProcessor
 from pydantic import BaseModel, Field
 from core.knowledge import Knowledge, TextKnowledge
 
@@ -26,5 +27,5 @@ class SaveToFileCommand(Command):
         return CommandResult("Данные сохранены в файл: {path}", False)
 
 
-def RegisterFileCommands(ctx: ContextRoot):
-    ctx.Commands.append(SaveToFileCommand())
+def RegisterFileCommands(cp: CommandProcessor):
+    cp.Commands.append(SaveToFileCommand())

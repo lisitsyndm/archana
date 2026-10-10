@@ -6,6 +6,7 @@ from core.command import Command
 from core.command_result import CommandResult
 from core.context import Context
 from core.context_root import ContextRoot
+from core.command_processor import CommandProcessor
 from pydantic import BaseModel, Field
 from core.knowledge import TextKnowledge
 
@@ -29,5 +30,5 @@ class SearchCommand(Command):
         kn = TextKnowledge(res, "Реляционные базы данных")
         return CommandResult(res)
 
-def RegisterSearchCommands(ctx: ContextRoot):
-    ctx.Commands.append(SearchCommand())
+def RegisterSearchCommands(cp: CommandProcessor):
+    cp.Commands.append(SearchCommand())

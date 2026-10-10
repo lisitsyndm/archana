@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from core.command import Command
 from core.command_result import CommandResult
 from core.context_root import ContextRoot
+from core.command_processor import CommandProcessor
 from pydantic import BaseModel, Field
 from llm.embedder_client import EmbedderClient
 
@@ -88,6 +89,6 @@ class SaveToDatabaseCommand(Command):
 
 #-----------------------------------------------------------------------------------------------------#
 
-def RegisterDatabaseCommands(ctx: ContextRoot):
-    ctx.Commands.append(LoadFromDatabaseCommand())
-    ctx.Commands.append(SaveToDatabaseCommand())
+def RegisterDatabaseCommands(cp: CommandProcessor):
+    cp.Commands.append(LoadFromDatabaseCommand())
+    cp.Commands.append(SaveToDatabaseCommand())

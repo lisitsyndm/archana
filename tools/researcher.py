@@ -9,6 +9,7 @@ from core.command import Command
 from core.command_result import CommandResult
 from core.context import Context
 from core.context_root import ContextRoot
+from core.command_processor import CommandProcessor
 from core.logger import *
 
 logger = logging.getLogger(__name__)
@@ -82,5 +83,5 @@ class InternetSearchCommand(Command):
         return CommandResult(res)
 
 
-def RegisterResearcherCommands(ctx: ContextRoot):
-    ctx.Commands.append(InternetSearchCommand())
+def RegisterResearcherCommands(cp: CommandProcessor):
+    cp.Commands.append(InternetSearchCommand())
