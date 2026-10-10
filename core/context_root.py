@@ -4,6 +4,7 @@ from core.plan import Plan
 from core.plan import fillTestPlan
 from core.command_data import CommandData
 from core.command_result import CommandResult
+from core.user_data import UserData
 
 
 class ContextRoot:
@@ -14,3 +15,4 @@ class ContextRoot:
         self.plan: Plan = Plan()
         #fillTestPlan(self.plan)
         self.histories: List[Union[CommandData, CommandResult]] = []
+        self.User: UserData = None

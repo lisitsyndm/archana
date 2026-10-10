@@ -225,3 +225,26 @@ INFO: Парсим JSON:
 ERROR: Ошибка парсинга JSON: Expecting value: line 1 column 1 (char 0)
 INFO: Вызов команды: Выход
 INFO: Параметры: {'text': ''}
+INFO: ====================================================================
+INFO: Обработка сообщения: '/Покажи переменную : {"name": "Шаблон ADR"}'
+INFO: Сообщение классифицировано как скилл.
+INFO: _convert_skill_to_command:
+INFO: Команда найдена: Покажи переменную
+INFO: _fill_variables:
+INFO: Подставляем переменные в текст команды:  {"name": "Шаблон ADR"}
+INFO: _parse_data
+INFO: Парсим JSON: {"name": "Шаблон ADR"}
+INFO: Вызов команды: Покажи переменную
+INFO: Параметры: {'name': 'Шаблон ADR'}
+INFO: ====================================================================
+INFO: Обработка сообщения: '/ выход'
+INFO: Сообщение классифицировано как скилл.
+INFO: _convert_skill_to_command:
+INFO: Команда найдена: Выход
+INFO: _fill_variables:
+INFO: Подставляем переменные в текст команды: 
+INFO: _parse_data
+INFO: Парсим JSON: 
+ERROR: Ошибка парсинга JSON: Expecting value: line 1 column 1 (char 0)
+INFO: Вызов команды: Выход
+INFO: Параметры: {'text': ''}
