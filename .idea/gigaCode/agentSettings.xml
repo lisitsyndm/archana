@@ -99,6 +99,9 @@
         <Execute>
           <option name="pattern" value="python -c &quot;from core.context_root import ContextRoot; from core.command_processor import CommandProcessor; cr = ContextRoot(); cp = CommandProcessor(cr); print('ContextRoot has Commands:', hasattr(cr, 'Commands')); print('CommandProcessor has Commands:', hasattr(cp, 'Commands')); print('CommandProcessor.Commands type:', type(cp.Commands))&quot;" />
         </Execute>
+        <Execute>
+          <option name="pattern" value="python -c &quot;from core.command_processor import CommandProcessor, ProcessState; print('Import OK')&quot;" />
+        </Execute>
       </list>
     </option>
   </component>

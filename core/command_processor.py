@@ -2,11 +2,10 @@ import os
 import logging
 import time
 import json
-from typing import Callable
+from typing import Callable, TypedDict, List
 
 from dotenv import load_dotenv
-
-from typing import List
+from langgraph.graph import StateGraph, END
 from core.command import Command
 from llm.llm_client import LLMClient
 from core.command_result import CommandResult
@@ -23,26 +22,62 @@ load_dotenv()
 logger = logging.getLogger(__name__)
 
 
+class ProcessState(TypedDict):
+    text: str
+    callback: Callable[[CommandResult], None]
+
+
 class CommandProcessor:
     ctx_root = None
 
     def __init__(self, ctx_root):
         self.ctx_root = ctx_root
         self.Commands: List[Command] = []
+        self._compiled_graph = None
 
     #-----------------------------------------------------------------------------#
 
     def process(self, text: str, callback: Callable[[CommandResult], None]):
+        graph = self._build_graph()
+        state: ProcessState = {"text": text, "callback": callback}
+        graph.invoke(state)
 
-        result = self.process_command(text)
+    #-----------------------------------------------------------------------------#
 
-        callback(result)
+    def _build_graph(self):
+        if self._compiled_graph is None:
+            graph = StateGraph(ProcessState)
+            graph.add_node("exec_text_command", self._node_exec_text_command)
+            graph.add_node("exec_plan_command", self._node_exec_plan_command)
+            graph.set_entry_point("exec_text_command")
+            graph.add_conditional_edges(
+                "exec_text_command",
+                lambda s: "exec_plan_command" if self.ctx_root.plan.planStatus == PlanStatus.Started else END,
+            )
+            graph.add_conditional_edges(
+                "exec_plan_command",
+                lambda s: "exec_plan_command" if self.ctx_root.plan.planStatus == PlanStatus.Started else END,
+            )
+            self._compiled_graph = graph.compile()
+        return self._compiled_graph
 
-        while( self.ctx_root.plan.planStatus == PlanStatus.Started ):
-            commandData: CommandData = self.ctx_root.plan.next()
-            if commandData is None: break
-            result = self.process_command( f"/ {commandData.commandName} : {commandData.commandPayload}"  )
-            callback(result)
+    #-----------------------------------------------------------------------------#
+
+    def _node_exec_text_command(self, state: ProcessState) -> ProcessState:
+        res = self.process_command(state["text"])
+        state["callback"](res)
+        return state
+
+    #-----------------------------------------------------------------------------#
+
+    def _node_exec_plan_command(self, state: ProcessState) -> ProcessState:
+        if self.ctx_root.plan.planStatus == PlanStatus.Started:
+            cmd_data = self.ctx_root.plan.next()
+            if cmd_data is not None:
+                new_text = f"/ {cmd_data.commandName} : {cmd_data.commandPayload}"
+                res = self.process_command(new_text)
+                state["callback"](res)
+        return state
 
     #-----------------------------------------------------------------------------#
 
